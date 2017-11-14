@@ -1,0 +1,26 @@
+{
+  "name": "@continuum/continuum",
+  "version": "1.0.0",
+  "description": "Domain Driven ideology for Javascript applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/continuum-studios/continuum.git"
+  },
+  "author": "Ken Stowell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/continuum-studios/continuum/issues"
+  },
+  "homepage": "https://github.com/continuum-studios/continuum#readme",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "joi": "^13.0.2",
+    "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
+    "uuid": "^3.1.0"
+  }
+}

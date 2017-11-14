@@ -23,9 +23,13 @@ ETL | *Continuum was designed to make ETL in JS apps simpler and robust.*
 Abstract | *tbd*
 Conventions | *The structures of Continuum seek to provide consistency in the way our code can be organized and abstracted.*
 
+***
+
 ## Documentation
 
 See the wiki for moar information.
+
+***
 
 ## Contributing.
 

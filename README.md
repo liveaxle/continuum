@@ -1,7 +1,7 @@
 # Continuum
 ![logo](https://avatars3.githubusercontent.com/u/30741101?s=200&v=4)
 
-Domain Driven ideology for Javascript applications.
+Domain Driven ideology for browser based applications.
 
 ***
 
@@ -20,7 +20,7 @@ Concept | Description
 --- | ---
 Semantic | *The core construct behind Continuum is a `domain`. A domain is simply a semantic way to group a first-class entity of your application. Such as a users domain or a vehicles domain.* Learn more.
 ETL | *Continuum was designed to make ETL in JS apps simpler and robust.*
-Abstract | *tbd*
+Abstract | *The abstractions have been desined in a way that should enable you to use what components you feel necessary.*
 Conventions | *The structures of Continuum seek to provide consistency in the way our code can be organized and abstracted.*
 
 ***
@@ -33,5 +33,5 @@ See the wiki for moar information.
 
 ## Contributing.
 
-If you have some changes you would like to introduce, please submit a PR with notes detailing the contents and intentions and context of the change.
+If you have some changes you would like to introduce, please submit a PR with notes detailing the contents, intentions and context of the change.
 

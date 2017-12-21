@@ -68,22 +68,9 @@
   margin-right: auto;
 }
 
-// events css
-.events-categories {
-  // width:65%;
-}
-
-// overrides
-.button {
-  &.is-grey {
-    background-color: #ccc;
-  }
-
-  a {
-    color:white;
-
-    &:hover {
-      color: white;
-    }
-  }
-}
+//
+// IMPORTS
+//------------------------------------------------------------------------------------------//
+// @description
+//
+@import 'tables';

@@ -59,4 +59,20 @@ module.exports = class Domain {
         }).catch(reject); // add system-wide custom class
     });
   }
+
+  /**
+   * Update orchestrator
+   * @param  {Object} [data={}]   [description]
+   * @param  {Object} [config={}] [description]
+   * @return {[type]}             [description]
+   */
+  update(data={}, config={}) {
+    return new Promise((resolve, reject) => {
+      this.Resource.put(this.Service.outbound(data), config)
+        .then(data => this.Store.set(data))
+        .then(this.dispatch)
+        .then(resolve)
+        .catch(reject)
+    });
+  }
 }

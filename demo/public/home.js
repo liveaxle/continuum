@@ -33,11 +33,11 @@ export default class Home extends React.Component {
     Object.keys(this.subscriptions).forEach(sub => this.subscriptions[sub].cancel());
   }
 
-  updateUser(user) {
-    console.log(user);
+  updateUser(e, user) {
+    Domain.Users.update(user);
   }
 
-  deleteUser(user) {
+  deleteUser(e, user) {
     console.log(user);
   }
 

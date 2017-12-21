@@ -7,7 +7,6 @@
  */
 const moment = require('moment');
 const uuid = require('uuid/v4');
-const DEFAULT_KEY = '__contents__';
 
 /**
  * [config description]
@@ -15,10 +14,10 @@ const DEFAULT_KEY = '__contents__';
  */
 module.exports = class Store {
   constructor(data, config={}) {
-    const _store = {}
+    const _store = {data: null}
     const _subscriptions = {};
 
-    this.config = Object.assign({}, config);
+    this.config = Object.assign({type: Object}, config);
     this.get = this.get.bind(this, _store);
     this.set = this.set.bind(this, _store);
     this.subscribe = this.subscribe.bind(this, _subscriptions);
@@ -35,12 +34,12 @@ module.exports = class Store {
    * @param  {[type]} key   [description]
    * @return {[type]}       [description]
    */
-  get(store, key=DEFAULT_KEY) {
+  get(store) {
     return new Promise((resolve, reject) => {
-      if(store[key]) { // eventually check for expiry
-        resolve(store[key])
+      if(store.data) { // eventually check for expiry
+        resolve(store.data)
       } else {
-        reject(`Continuum:Store - Get - ${store[key]} does not exist in the Store`);
+        reject(`Continuum:Store - Get - Store is empty.`);
       }
     });
   }

@@ -10,4 +10,4 @@ import {Store} from 'continuum';
 /**
  * Users store
  */
-export default new Store();
+export default new Store([], {type: Array});

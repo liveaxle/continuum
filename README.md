@@ -6,7 +6,7 @@ Domain Driven ideology for browser based applications.
 ***
 
 ## Install
-`npm install --save @continuum/continuum`
+`npm install --save @liveaxle/continuum`
 
 ***
 

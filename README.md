@@ -10,9 +10,17 @@ Domain Driven ideology for browser based applications.
 
 ***
 
+## Compatbility 
+
+* Node: `9.2.0` - but should work as low as 6.10
+* Babel: Preset-Env should cover everything.
+* Browsers: TBA (Chrome and FF, yes)
+
+***
+
 ## Try
 
-If you're interested to see how I've used Continuum in an ETL setting, fork this repository and check out the demo app!
+If you're interested to see how Continuum can be used in an ETL setting, fork this repository and check out the demo app!
 
 * `git clone git@github.com:liveaxle/continuum.git`
 * `cd continuum`

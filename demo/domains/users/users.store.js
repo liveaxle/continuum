@@ -10,4 +10,6 @@ import {Store} from 'continuum';
 /**
  * Users store
  */
-export default new Store([], {type: Array});
+const Users = new Store({type: Array});
+Users.User = new Store({type: Object});
+export default Users;

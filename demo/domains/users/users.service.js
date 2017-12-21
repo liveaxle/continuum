@@ -6,6 +6,7 @@
  * @description
  */
 import {Service} from 'continuum';
+import Model from './users.model';
 
 /**
  * Users service instance
@@ -14,11 +15,11 @@ import {Service} from 'continuum';
 const Users = new Service();
 
 /**
- * Inbound transform moment.
+ * Get Inbound transform moment.
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-Users.inbound = function(data) {
+Users.inbound.get = function(data) {
   return data;
 };
 
@@ -27,8 +28,8 @@ Users.inbound = function(data) {
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-Users.outbound = function(data) {
-  return data;
+Users.outbound.create = function(data) {
+  return Model(data);
 };
 
 /**

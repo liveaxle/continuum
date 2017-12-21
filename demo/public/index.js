@@ -22,8 +22,7 @@ import home from './home';
  * @type {Array}
  */
 const views = [
-  new View('/', home, {protected: false, transition: true}),
-  new View('/users/:id', home, {protected: true, transition: true})
+  new View('/', home, {protected: false, transition: true})
 ];
 
 //

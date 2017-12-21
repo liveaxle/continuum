@@ -10,7 +10,6 @@ import Dom from 'react-dom';
 import Types from 'prop-types';
 import Components from '~/components';
 import {Utils} from 'continuum';
-import {Table, Tr, Th, Td, Thead} from 'reactable';
 
 /**
  * Users table component
@@ -23,46 +22,59 @@ export default class UsersTable extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-      this.setState(props);
+    console.log(props.users.length, this.state.users.length)
+    this.setState(props);
+  }
+
+  update(user, e) {
+    e.persist();
+    user[e.target.name] = e.target.value;
+    this.props.onChange(user, e);
   }
 
   render() {
+    const users = this.state.users;
+
     return (
       <Components.Layout.Container className="is-fluid">
-        <Table itemsPerPage={20} pageButtonLimit={5}>
-          <Thead>
-            <Th column="first_name">First Name</Th>
-            <Th column="last_name">Last Name</Th>
-            <Th column="age">Age</Th>
-            <Th column="remove">Remove</Th>
-          </Thead>
-          {
-            this.state.users.map(user => {
-              return (
-                <Tr key={Utils.hash()}>
-                    <Td column="first_name" value={user.first_name}>
-                      <div className="control">
-                        <input type="text" className="input" defaultValue={user.first_name} onChange={this.props.onChange} />
-                      </div>
-                    </Td>
-                    <Td column="last_name" value={user.last_name}>
-                      <div className="control">
-                        <input type="text" className="input" defaultValue={user.last_name} onChange={this.props.onChange} />
-                      </div>
-                    </Td>
-                    <Td column="age" value="age">
-                      <div className="control">
-                        <input type="text" className="input" defaultValue={user.age} onChange={this.props.onChange} />
-                      </div>
-                    </Td>
-                    <Td column="remove">
-                      <button className="button is-danger" onClick={this.props.onDelete}>Remove</button>
-                    </Td>
-                </Tr>
-              )
-            })
-          }
-        </Table>
+        <table>
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Age</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              (this.state.users).map(user => {
+                return (
+                  <tr key={user['continuum.key']}>
+                      <td>
+                        <div className="control">
+                          <input type="text" className="input" name="first_name" defaultValue={user.first_name} onChange={this.update.bind(this, user)} />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="control">
+                          <input type="text" className="input" name="last_name" defaultValue={user.last_name} onChange={this.update.bind(this, user)} />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="control">
+                          <input type="text" className="input" defaultValue={user.age} name="age" onChange={this.update.bind(this, user)} />
+                        </div>
+                      </td>
+                      <td>
+                        <button className="button is-danger" onClick={this.props.onDelete.bind(this, user)}>Remove</button>
+                      </td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </table>
       </Components.Layout.Container>
     )
   }

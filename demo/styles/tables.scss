@@ -3,27 +3,25 @@ table {
   width:100%;
 
   th, td {
-    min-width: 25%;
+    &:not(:last-child) {
+      width: 30%;
+    }
   }
 
   td {
     padding:5px 5px 5px 0;
   }
 
-  .reactable-pagination {
-    tr {
-      td {
-        padding-right: 5.5%;
-        text-align: right;
-
-        a {
-          padding: 5px;
-          color: #333;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          margin: 2px;
-        }
+  &.create-user {
+    td input {
+      max-width: 30%;
+      &:nth-child(2) {
+        margin: 0 5px;
       }
+    }
+
+    button {
+      margin-left: 5px;
     }
   }
 }

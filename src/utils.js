@@ -5,6 +5,8 @@
  ***********************************************************************************************************************************************
  * @description
  */
+const uuid = require('uuid/v4');
+const Debounce = require('debounce');
 
 /**
  * Returns a random hash.
@@ -38,6 +40,18 @@ function fn(name, func) {
 }
 
 /**
+ * Debounces a function
+ * @param  {Function} cb          [description]
+ * @param  {Number}   [delay=250] [description]
+ * @return {[type]}               [description]
+ */
+function debounce(cb, delay=250) {
+    return Debounce(cb, delay);
+}
+
+
+
+/**
  * Default Export
  */
-module.exports = {wait, hash, fn};
+module.exports = {wait, hash, fn, debounce};

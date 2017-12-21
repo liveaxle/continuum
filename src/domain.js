@@ -49,7 +49,7 @@ module.exports = class Domain {
             // Validate incoming data
             .then(response => this.Model.validate(response.data, config))
             // Process incoming data
-            .then(data => this.Service.inbound(data))
+            .then(data => this.Service.inbound.get(data))
             // Write it to the store
             .then(data => this.Store.set(data))
             // Dispatch change events
@@ -68,8 +68,33 @@ module.exports = class Domain {
    */
   update(data={}, config={}) {
     return new Promise((resolve, reject) => {
-      this.Resource.put(this.Service.outbound(data), config)
-        .then(data => this.Store.set(data))
+      this.Resource.put(this.Service.outbound.update(data), config)
+        .then(response => this.Store.set(this.Service.inbound.update(response, data), config))
+        .then(this.dispatch)
+        .then(resolve)
+        .catch(reject)
+    });
+  }
+
+  create(data={}, config={}) {
+    return new Promise((resolve, reject) => {
+      this.Resource.post(this.Service.outbound.create(data), config)
+        .then(response => this.Store.set(this.Service.inbound.create(response, data), config))
+        .then(this.dispatch)
+        .then(resolve)
+        .catch(reject)
+    });
+  }
+  /**
+   * Delete Orchestrator
+   * @param  {Object} [data={}]   [description]
+   * @param  {Object} [config={}] [description]
+   * @return {[type]}             [description]
+   */
+  delete(data={}, config={}) {
+    return new Promise((resolve, reject) => {
+      this.Resource.delete(data, config)
+        .then(response => this.Store.remove(data))
         .then(this.dispatch)
         .then(resolve)
         .catch(reject)

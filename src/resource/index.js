@@ -1,23 +1,23 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * SYSTEM RESOURCE
+ * CONTINUUM RESOURCE
  ***********************************************************************************************************************************************
  * @description
  */
-import Axios from 'axios';
-import path from 'path';
-import Response from './response';
+const Axios = require('axios');
+const path = require('path');
+const Response = require('./response');
 
 /**
  * System Resource -
  * HTTP client
  * @type {String}
  */
-export default class Resource {
+module.exports = class Resource {
   constructor(name='', config={}) {
-    this.server = process.env.API;
-    this.resource = name || config.path;
+    this.server = config.base || '[Continuum:Resource - no base resource url provided. please see wiki]';
+    this.resource = name || config.path || config.uri;
 
     if(!this.resource) {
       throw new Error(`System.Resource - please provice a resource name to use`);
@@ -39,6 +39,6 @@ export default class Resource {
    * @return {[type]}             [description]
    */
   uri(config={}) {
-    return `${this.server}/${config.uri || this.resource}/${process.env.CODE || ''}`;
+    return `${this.server}/${config.uri || config.url || this.resource}`;
   }
 }

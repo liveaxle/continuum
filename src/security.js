@@ -1,23 +1,23 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * SYSTEM - SECURITY
+ * CONTINUUM - SECURITY
  ***********************************************************************************************************************************************
  * @description
  */
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 /**
  *
  */
-export default {encrypt, decrypt};
+module.exports = {encrypt, decrypt};
 
 /**
  * [encrypt description]
  * @param  {[type]} creds [description]
  * @return {[type]}       [description]
  */
-export function encrypt(data) {
+function encrypt(data) {
   return jwt.sign(data, process.env.KEY);
 }
 
@@ -25,7 +25,7 @@ export function encrypt(data) {
  * [decrypt description]
  * @return {[type]} [description]
  */
-export function decrypt(token) {
+function decrypt(token) {
   let decrypted = null;
 
   try {

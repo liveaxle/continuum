@@ -1,22 +1,21 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * SYSTEM - DOMAIN
+ * CONTINUUM - DOMAIN
  ***********************************************************************************************************************************************
  * @description
  */
-import Resource from './resource';
-import Store from './store';
-import Model from './model';
-import Service from './service';
-import uuid from 'uuid/v4';
-import joi from 'joi';
-
+const Resource = require('./resource');
+const Store = require('./store');
+const Model = require('./model');
+const Service = require('./service');
+const uuid = require('uuid/v4');
+const joi = require('joi');
 
 /**
  * Domain Class
  */
-export default class Domain {
+module.exports = class Domain {
   constructor(name='', members={}, config={}) {
     if(!name) {
       throw new Error(`System Domain - please provide a name for your domain`);
@@ -42,13 +41,13 @@ export default class Domain {
    */
   get(config={}) {
     return new Promise((resolve, reject) => {
-      let url = this.Resource.uri(config);
-
       // See if the Store has it first
       this.Store.get()
         .then(resolve, (err) => {
           // If store doesn't have, try the API
           this.Resource.get(config)
+            // Validate incoming data
+            .then(response => this.Model.validate(response.data, config))
             // Process incoming data
             .then(data => this.Service.inbound(data))
             // Write it to the store

@@ -1,33 +1,25 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * SYSTEM
+ * CONTINUUM
  ***********************************************************************************************************************************************
  * @description
  */
-import Router from './router';
-import Settings from './settings';
-import View from './view';
-import Resource from './resource';
-import Domain from './domain';
-import Service from './service';
-import Store from './store';
-import Data from './data';
-import Utils from './utils';
-import Authentication from './authentication';
-import Security from './security';
-import Identity from './identity';
-import Constants from './constants';
-import Model from './model';
-
-const exports = {
-  Router, Settings, View, Resource,
-  Authentication, Security, Identity,
-  Domain, Service, Store, Data, Utils, Constants, Model};
-
-export exports;
+const Domain = require('./domain');
+const Resource = require('./resource');
+const Service = require('./service');
+const Store = require('./store');
+const Data = require('./data');
+const Utils = require('./utils');
+const Security = require('./security');
+const Model = require('./model');
+const Router = require('./router');
+const View = require('./view');
 
 /**
- * System Export
+ * API
+ * @type {Object}
  */
-export default exports;
+module.exports = {
+  Security, Domain, Service,
+  Store, Data, Utils, Model, View, Router, Resource};

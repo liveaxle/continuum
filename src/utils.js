@@ -1,36 +1,37 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * SYSTEM - UTILS
+ * CONTINUUM - UTILS
  ***********************************************************************************************************************************************
  * @description
  */
 
 /**
- * [hash description]
+ * Returns a random hash.
  * @return {[type]} [description]
  */
-export function hash() {
+function hash() {
   return Math.random().toString(32).substr(2, 16);
 }
 
 /**
- * [wait description]
+ * Promise support delay.
  * @param  {[type]} time [description]
  * @return {[type]}      [description]
  */
-export function wait(time) {
+function wait(time) {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, time || 0);
   });
 }
 
 /**
- * [fn description]
+ * Create a function name dynamically.
+ * The main purpose for this is to have certain instances semantically represented in the console.
  * @param  {[type]}   name [description]
  * @return {Function}      [description]
  */
-export function fn(name, func) {
+function fn(name, func) {
   let strip = func.name;
   var strFn = func.toString().replace(`function ${strip}`, 'return function ' + name);
   return new Function(strFn)();
@@ -39,4 +40,4 @@ export function fn(name, func) {
 /**
  * Default Export
  */
-export default {wait, hash, fn};
+module.exports = {wait, hash, fn};

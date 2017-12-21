@@ -1,0 +1,89 @@
+/***********************************************************************************************************************************************
+ * MAIN STYLES
+ ***********************************************************************************************************************************************
+ * @description
+ */
+
+// Layout Control Helpers
+//
+// Margin
+.has-margin-all__large {
+  margin: 20px;
+}
+
+.has-margin-all__medium {
+  margin: 15px;
+}
+
+.has-margin-all__small {
+  margin: 10px;
+}
+
+.has-margin-all__tiny {
+  margin: 5px;
+}
+
+.has-margin-vertical__large {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.has-margin-vertical__medium {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.has-margin-vertical__small {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.has-margin-vertical__tiny {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.has-margin-horizontal__large {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.has-margin-horizontal__medium {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.has-margin-horizontal__small {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.has-margin-horizontal__tiny {
+  margin-left: 5px;
+  margin-right:5px;
+}
+
+.is-horizontally-centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// events css
+.events-categories {
+  // width:65%;
+}
+
+// overrides
+.button {
+  &.is-grey {
+    background-color: #ccc;
+  }
+
+  a {
+    color:white;
+
+    &:hover {
+      color: white;
+    }
+  }
+}

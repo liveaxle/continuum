@@ -1,20 +1,19 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * SYSTEM - STORE
+ * CONTINUUM - STORE
  ***********************************************************************************************************************************************
  * @description
  */
-import Data from './data';
-import moment from 'moment';
-import uuid from 'uuid/v4';
+const moment = require('moment');
+const uuid = require('uuid/v4');
 const DEFAULT_KEY = '__contents__';
 
 /**
  * [config description]
  * @type {Object}
  */
-export default class Store {
+module.exports = class Store {
   constructor(data, config={}) {
     const _store = {}
     const _subscriptions = {};
@@ -38,10 +37,10 @@ export default class Store {
    */
   get(store, key=DEFAULT_KEY) {
     return new Promise((resolve, reject) => {
-      if(store[key] instanceof Data) { // eventually check for expiry
+      if(store[key]) { // eventually check for expiry
         resolve(store[key])
       } else {
-        reject(`System.Store - Get - ${store[key]} is not an instance of System.Data`);
+        reject(`Continuum:Store - Get - ${store[key]} does not exist in the Store`);
       }
     });
   }
@@ -55,12 +54,8 @@ export default class Store {
   set(store, data, key=DEFAULT_KEY) {
 
     return new Promise((resolve, reject) => {
-      if(data instanceof Data) {
-          store[key] = data;
-          resolve(store[key]);
-      } else {
-        reject(`System.Store - Set - ${data} is not an instance of System.Data`);
-      }
+      store[key] = data;
+      resolve(store[key]);
     });
   }
 

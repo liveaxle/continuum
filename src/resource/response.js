@@ -1,7 +1,7 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * SYSTEM - RESOURCE - RESPONSE
+ * CONTINUUM - RESOURCE - RESPONSE
  ***********************************************************************************************************************************************
  * @description
  */
@@ -10,11 +10,12 @@
  * Response wrapper
  * Will include validation/normalization, etc
  */
-export default class Response {
+module.exports = class Response {
   constructor(response) {
     this.data = response.data;
-    this.__proto__.config = Object.assign({}, response.config || {});
-    this.__proto__.status = response.status;
-    this.__proto__.headers = response.headers || {};
+
+    Object.defineProperty(this, 'config', {value: Object.assign({}, response.config || {}), writable: false, enumerable: false});
+    Object.defineProperty(this, 'status', {value: response.status, writable: false, enumerable: false});
+    Object.defineProperty(this, 'headers', {value: response.headers || {}, writable: false, enumerable: false});
   }
 }

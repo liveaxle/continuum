@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo:server": "./node_modules/.bin/webpack-dev-server --config ./demo/webpack.config.js --env.API=http://localhost:9000 --env.PORT=9001",
     "demo:seed": "node ./demo/.scripts/seed",
-    "tests:unit": "./node_modules/.bin/mocha ./tests/unit",
+    "tests:unit": "API=http://localhost:9000 ./node_modules/.bin/mocha --inspector --inspect-brk ./tests/unit",
     "tests:ui": "./node_modules/.bin/cypress open"
   },
   "repository": {
@@ -47,6 +47,7 @@
     "faker": "^4.1.0",
     "html-webpack-plugin": "^2.30.1",
     "json-server": "^0.12.1",
+    "minimist": "^1.2.0",
     "mocha": "^4.0.1",
     "node-sass": "^4.7.2",
     "prop-types": "^15.6.0",

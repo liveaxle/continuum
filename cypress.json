@@ -1,0 +1,12 @@
+{
+  "integrationFolder": "./tests/ui/spec",
+  "screenshotsFolder": "./tests/ui/screenshots",
+  "supportFile": "./tests/ui/support",
+  "videosFolder": "./tests/ui/videos",
+  "viewportHeight": 660,
+  "viewportWidth": 1000,
+  "watchForFileChanges": true,
+  "env": {
+    "host": "http://localhost:9001"
+  }
+}

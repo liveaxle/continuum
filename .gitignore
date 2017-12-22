@@ -1,3 +1,6 @@
 node_modules
 .DS_Store
 demo/.data
+cypress
+tests/ui/screenshots
+tests/ui/video

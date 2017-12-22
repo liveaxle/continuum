@@ -22,7 +22,6 @@ export default class UsersTable extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log(props.users.length, this.state.users.length)
     this.setState(props);
   }
 
@@ -37,7 +36,7 @@ export default class UsersTable extends React.Component {
 
     return (
       <Components.Layout.Container className="is-fluid">
-        <table>
+        <table className="users-table">
           <thead>
             <tr>
               <th>First Name</th>

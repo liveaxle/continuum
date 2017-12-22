@@ -43,7 +43,7 @@ module.exports = class Store {
    */
   get(store) {
     return new Promise((resolve, reject) => {
-      console.log(store)
+      
       if(store.data) { // eventually check for expiry
         resolve(store.data)
       } else {

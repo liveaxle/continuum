@@ -22,7 +22,6 @@ export default class CreateUser extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log(props)
     this.setState(props);
   }
 

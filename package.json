@@ -1,10 +1,10 @@
 {
-  "name": "@continuum/continuum",
+  "name": "@liveaxle/continuum",
+  "access":"public",
   "version": "1.0.0",
   "description": "Domain Driven ideology for Javascript applications.",
   "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "demo:server": "./node_modules/.bin/webpack-dev-server --config ./demo/webpack.config.js --env.API=http://localhost:9000 --env.PORT=9001",
     "demo:seed": "node ./demo/.scripts/seed",
     "tests:unit": "API=http://localhost:9000 ./node_modules/.bin/mocha --inspector --inspect-brk ./tests/unit",
@@ -12,14 +12,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/continuum-studios/continuum.git"
+    "url": "git+https://github.com/liveaxle/continuum.git"
   },
-  "author": "Ken Stowell",
-  "license": "ISC",
+  "author": "Live Axle, LLC",
+  "people": [
+    {
+      "name": "Ken Stowell",
+      "email": "ken@liveaxle.com"
+    }
+  ],
+  "license": "(ISC OR Beerware)",
   "bugs": {
-    "url": "https://github.com/continuum-studios/continuum/issues"
+    "url": "https://github.com/liveaxle/continuum/issues"
   },
-  "homepage": "https://github.com/continuum-studios/continuum#readme",
+  "homepage": "https://github.com/liveaxle/continuum#readme",
   "dependencies": {
     "axios": "^0.17.1",
     "debounce": "^1.1.0",

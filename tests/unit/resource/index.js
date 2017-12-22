@@ -34,7 +34,7 @@ const Users = new Resource('users', {
 // @description
 //
 describe('Continuum - Resource - Retrieval', () => {
-  
+
   let request = Users.get({params: {_sort: 'created'}, headers: {'Continuum-Request-Header': Math.random().toString(32).substr(2, 16)}});
 
   request.then(()=> {}, (e) => {
@@ -74,7 +74,7 @@ describe('Continuum - Resource - Retrieval', () => {
       .then(response => {
         throw new Error('Success Handler was called.');
       }).catch(e => {
-        expect(e).to.not.equal(null)
+        expect(e).to.not.equal(null);
       }).then(done);
   });
 })

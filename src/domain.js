@@ -25,7 +25,7 @@ module.exports = class Domain {
     this.Service = members.Service instanceof Service && members.Service || new Service(config);
     this.Resource = members.Resource instanceof Resource && members.Resource || new Resource(name, config);
     this.Store = members.Store instanceof Store && members.Store || new Store(config);
-    this.Model = members.Model || new Model('Model', joi.object.keys({}).unknown(), {});
+    this.Model = members.Model || new Model('Model', joi.object().keys({}).unknown(), {});
     this.Components = members.Components || {};
     this.Constants = members.Constants || {};
 

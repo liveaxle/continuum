@@ -37,7 +37,7 @@ module.exports = class Resource {
    * @return {[type]}        [description]
    */
   get(config={}) {
-    return Axios.get(this.uri(null, config, this.methods['get']), config).then(res => new Response(res));
+    return Axios.get(this.uri(config.segments || {}, config, this.methods['get']), config).then(res => new Response(res));
   }
 
   /**

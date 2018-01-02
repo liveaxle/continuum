@@ -51,6 +51,14 @@ module.exports = class Router {
     });
   }
 
+  set(url='/') {
+    _router.setRoute(url);
+  }
+
+  get() {
+    return _router.getRoute();
+  }
+
   get params() {
     return {
       map: mapParamsFromRoute.bind(this)

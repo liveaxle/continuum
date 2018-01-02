@@ -25,7 +25,7 @@ module.exports = class Domain {
     this.Service = members.Service instanceof Service && members.Service || new Service(config);
     this.Resource = members.Resource instanceof Resource && members.Resource || new Resource(name, config);
     this.Store = members.Store instanceof Store && members.Store || new Store(config);
-    this.Model = members.Model || new Model({});
+    this.Model = members.Model || new Model('Model', {}, {});
     this.Components = members.Components || {};
     this.Constants = members.Constants || {};
 
@@ -76,6 +76,12 @@ module.exports = class Domain {
     });
   }
 
+  /**
+   * Create orchestrator
+   * @param  {Object} [data={}]   [description]
+   * @param  {Object} [config={}] [description]
+   * @return {[type]}             [description]
+   */
   create(data={}, config={}) {
     return new Promise((resolve, reject) => {
       this.Resource.post(this.Service.outbound.create(data), config)
@@ -85,6 +91,7 @@ module.exports = class Domain {
         .catch(reject)
     });
   }
+  
   /**
    * Delete Orchestrator
    * @param  {Object} [data={}]   [description]

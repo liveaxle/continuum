@@ -37,7 +37,7 @@ module.exports = class Resource {
    * @return {[type]}        [description]
    */
   get(config={}) {
-    return Axios.get(this.uri(null, config, this.methods['get']), config).then(res => new Response(res));
+    return Axios.get(this.uri(config.segments || {}, config, this.methods['get']), config).then(res => new Response(res));
   }
 
   /**
@@ -73,16 +73,14 @@ module.exports = class Resource {
    * @param  {Object} [config={}] [description]
    * @return {[type]}             [description]
    */
-  uri(data={}, config={}, pattern) {
-    let endpoint = `${this.server}/${config.url || this.resource}`;
+  uri(data={}, config={}, pattern='') {
+    let endpoint = `${config.url || this.resource}${pattern}`;
 
     if(config.uri) {
       endpoint += `/${config.uri}`;
-    } else {
-      endpoint += buildSegmentsFromData(data, pattern);
     }
 
-    return endpoint;
+    return `${this.server}/${buildSegmentsFromData(data, endpoint)}`;
   }
 }
 
@@ -92,14 +90,11 @@ module.exports = class Resource {
 // @description
 //
 function buildSegmentsFromData(data, pattern='') {
-  if(!pattern) return pattern;
-
-  let path;
   let segments = new Pattern(pattern, {segmentNameCharset: 'a-zA-Z0-9_-'}).names;
 
   segments.forEach(seg => {
-    path = pattern.replace(`:${seg}`, data[seg]);
+    pattern = pattern.replace(`:${seg}`, data[seg]);
   });
 
-  return path;
+  return pattern;
 }

@@ -51,6 +51,28 @@ module.exports = class Router {
     });
   }
 
+  /**
+   * Sets the current route. (forces a navigation)
+   * @param {String} [url='/'] [description]
+   */
+  set(url='/') {
+    _router.setRoute(url);
+  }
+
+  /**
+   * Gets the current route.
+   * @return {[type]} [description]
+   */
+  get() {
+    return _router.getRoute();
+  }
+
+  /**
+   * Params getter, api for url param matching
+   * Todo - abstract this to a place that can be used by the Resource
+   *        class too.
+   * @return {[type]} [description]
+   */
   get params() {
     return {
       map: mapParamsFromRoute.bind(this)

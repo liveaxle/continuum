@@ -8,6 +8,7 @@ deployment:
   master:
     branch: /.*?/
     commands:
+      - echo "{users:[]}" > ./demo/.data/db.json
       - npm run demo:server:
           background:true
       - npm run demo:seed

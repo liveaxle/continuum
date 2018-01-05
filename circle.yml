@@ -6,6 +6,7 @@ dependencies:
     - npm install
 deployment:
   master:
+    branch: /.*?/
     commands:
       - npm run demo:server:
           background:true

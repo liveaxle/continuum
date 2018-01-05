@@ -10,7 +10,8 @@
     "demo:seed": "node ./demo/.scripts/seed",
     "tests:unit": "API=http://localhost:9000 node ./tests/unit",
     "tests:ui": "./node_modules/.bin/cypress open",
-    "tests:ui:headless": "./node_modules/.bin/cypress run"
+    "tests:ui:headless": "./node_modules/.bin/cypress run",
+    "ci": "git add . && git commit -m \"CI Changes\" && git push"
   },
   "repository": {
     "type": "git",

@@ -10,6 +10,10 @@ import {Store} from 'continuum';
 /**
  * Users store
  */
-const Users = new Store({type: Array, flatten: true});
-Users.User = new Store({type: Object});
+const Users = new Store();
+      Users.User = new Store();
+
+/**
+ * Users store export.
+ */
 export default Users;

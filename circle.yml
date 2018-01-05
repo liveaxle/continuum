@@ -12,7 +12,7 @@ deployment:
       - echo {\"users\":[]} > ./demo/.data/db.json
       - npm rebuild node-sass --force
       - npm run demo:server:
-          background:true
+        background:true
       - npm run demo:seed
       - npm run tests:unit
       - npm run tests:ui:headless

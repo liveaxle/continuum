@@ -10,6 +10,7 @@ const Resource = require('./resource');
 const Service = require('./service');
 const Store = require('./store');
 const Data = require('./data');
+const Structs = require('./structs');
 const Utils = require('./utils');
 const Security = require('./security');
 const Model = require('./model');
@@ -22,4 +23,4 @@ const View = require('./view');
  */
 module.exports = {
   Security, Domain, Service,
-  Store, Data, Utils, Model, View, Router, Resource};
+  Store, Data, Utils, Model, View, Router, Resource, Structs};

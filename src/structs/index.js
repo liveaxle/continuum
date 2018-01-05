@@ -1,19 +1,15 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * CONTINUUM DEMO - DOMAINS - USERS - STORE
+ * CONTINUUM - STRUCTS
  ***********************************************************************************************************************************************
  * @description
  */
-import {Store} from 'continuum';
+const Collection = require('./collection');
+const Composite = require('./composite');
 
 /**
- * Users store
+ * Structs Export
+ * @type {Object}
  */
-const Users = new Store();
-      Users.User = new Store();
-
-/**
- * Users store export.
- */
-export default Users;
+module.exports = {Collection, Composite};

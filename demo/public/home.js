@@ -33,7 +33,7 @@ export default class Home extends React.Component {
 
   componentWillMount() {
     Domains.Users.get({params: {_sort: 'created', _order:'desc'}});
-    Domains.Users.Store.User.set(Domains.Users.Model()).then(Domains.Users.Store.User.dispatch);
+    Domains.Users.Store.User.set(Domains.Users.Model()).dispatch();
   }
 
   componentWillUnmount() {
@@ -49,7 +49,7 @@ export default class Home extends React.Component {
   }
 
   updateUserModel(user) {
-    Domains.Users.Store.User.set(user).then(Domains.Users.Store.User.dispatch);
+    Domains.Users.Store.User.set(user).dispatch();
   }
 
   createUser(user) {

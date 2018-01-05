@@ -15,7 +15,7 @@ const _ = require('lodash');
 module.exports = class Model {
   constructor(name='Model', schema={}, config={}) {
     this.name = name;
-    this.config = Object.assign({type: Array}, config);
+    this.config = Object.assign({type: Array, validate: true}, config);
     this.schema = joi.object().keys(schema);
     this.failed = [];
 
@@ -29,7 +29,7 @@ module.exports = class Model {
      */
     let factory = (function Factory(data={}) {
       let {error, value} = joi.validate(data, this.schema);
-
+      // Return Model specific instance.
       return new instance(value, error);
     }).bind(this);
 
@@ -42,18 +42,34 @@ module.exports = class Model {
     return factory;
   }
 
+  /**
+   * Resets model state.
+   * For now, the only thing to reset is 'failed'
+   */
   reset() {
     this.failed.length = 0;
   }
 
+  /**
+   * Model validation. Calls the correct validator type.
+   * @param  {[type]} instance    [description]
+   * @param  {[type]} data        [description]
+   * @param  {Object} [config={}] [description]
+   * @return {[type]}             [description]
+   */
   validate(instance, data, config={}) {
     let spec = Object.assign(this.config, config);
 
-    if(spec.validate === false) return data;
+    // If validation is disabled then simply return data.
+    if(!spec.validate) return data;
 
     return this.validators[spec.type](data, instance);
   }
 
+  /**
+   * Validator bindings.
+   * @return {[type]} [description]
+   */
   get validators() {
     let types = {};
         types[Array] = validateArrayModel.bind(this);
@@ -69,14 +85,17 @@ module.exports = class Model {
  * @param       {[type]} error     [description]
  * @constructor
  */
-function Instance(data={}, error) {
-  Object.assign(this, data);
+function Instance(data={}, error, ctor) {
 
+  // add non-enumerable getter for 'failed'
   Object.defineProperty(this, '__failed', {
     enumerable: false,
     configurable: false,
     get: () => { return error; }
-  })
+  });
+
+  // Apply model data to instance
+  Object.assign(this, data);
 }
 
 //

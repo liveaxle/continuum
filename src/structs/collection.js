@@ -79,7 +79,7 @@ module.exports = class Collection {
 
     // If the item is a member in the collection already.
     if(key && (index !== undefined && index !== null)) {
-      collection.data[index] = new Member(data, config);
+      collection.data[index] = member;
     } else {
       // the item may have a key but does not exist in the Collection
       if(config.prepend) { collection.data.unshift(member); }

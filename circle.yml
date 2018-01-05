@@ -12,7 +12,7 @@ test:
     - echo {\"users\":[]} > ./demo/.data/db.json
     - npm run demo:seed
     - npm run demo:server:
-      background: true
+        background: true
   override:
     - sleep 30
     - npm run tests:unit

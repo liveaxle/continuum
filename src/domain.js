@@ -76,18 +76,6 @@ module.exports = class Domain {
   }
 
   /**
-   * [find description]
-   * @param  {Object} [config={}] [description]
-   * @return {[type]}             [description]
-   */
-  find(config={}) {
-    return new Promise((resolve, reject) => {
-      config = Object.assign(this.config, config);
-
-    });
-  }
-
-  /**
    * Update orchestrator
    * @param  {Object} [data={}]   [description]
    * @param  {Object} [config={}] [description]

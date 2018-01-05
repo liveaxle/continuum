@@ -10,6 +10,7 @@ deployment:
     commands:
       - mkdir ./demo/.data
       - echo {\"users\":[]} > ./demo/.data/db.json
+      - npm rebuild node-sass --force
       - npm run demo:server:
           background:true
       - npm run demo:seed

@@ -10,5 +10,6 @@ deployment:
     commands:
       - npm run demo:server:
           background:true
+      - npm run demo:seed
       - npm run tests:unit
       - npm run tests:ui:headless

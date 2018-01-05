@@ -6,9 +6,9 @@ dependencies:
     - npm install
 deployment:
   master:
-    branch: master
+    branch: *
     commands:
       - npm run demo:server:
           background:true
       - npm run tests:unit
-      - npm run tests:ui
+      - npm run tests:ui:headless

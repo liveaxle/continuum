@@ -4,15 +4,16 @@ machine:
 dependencies:
   override:
     - npm install
-deployment:
-  master:
-    branch: /.*?/
-    commands:
-      - mkdir ./demo/.data
-      - echo {\"users\":[]} > ./demo/.data/db.json
-      - npm rebuild node-sass --force
-      - npm run demo:server:
-        background:true
-      - npm run demo:seed
-      - npm run tests:unit
-      - npm run tests:ui:headless
+  post:
+    - npm rebuild node-sass --force
+test:
+  pre:
+    - mkdir ./demo/.data
+    - echo {\"users\":[]} > ./demo/.data/db.json
+    - npm run demo:seed
+    - npm run demo:server:
+      background: true
+  override:
+    - sleep 30
+    - npm run tests:unit
+    - npm run tests:ui:headless

@@ -28,4 +28,4 @@ export default new Model('User', {
   address: Joi.string().default('1234 Easy Street'),
   city: Joi.string().default('Anytown'),
   created: Joi.date().description('Person Created').default(new Date)
-}, {});
+}, {type: Array});

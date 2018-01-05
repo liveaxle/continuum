@@ -15,4 +15,4 @@ import Components from './users.components';
 /**
  * Users Domain instance
  */
-export default new Domain('users', {Service, Store, Model, Resource, Components});
+export default new Domain('users', {Service, Store, Model, Resource, Components}, {type: Array});

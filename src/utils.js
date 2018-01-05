@@ -36,7 +36,8 @@ function wait(time) {
 function fn(name, func) {
   let strip = func.name;
   var strFn = func.toString().replace(`function ${strip}`, 'return function ' + name);
-  return new Function(strFn)();
+  let newFn = new Function(strFn)();
+  return newFn;
 }
 
 /**

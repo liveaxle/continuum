@@ -6,10 +6,19 @@
  * @description
  */
 const path = require('path');
+const Mocha = require('mocha');
+const fs = require('fs');
+const mocha = new Mocha({reporter: 'nyan', fullTrace: false});
+const args = require('minimist')(process.argv.slice(2));
 
+// Global Using Helper
 global.using = function(mod='') {
   return require(path.join(process.cwd(), mod));
-}
+};
+
+global.runner = {
+  stub: notYetImplementedStub
+};
 
 
 //
@@ -17,4 +26,34 @@ global.using = function(mod='') {
 //------------------------------------------------------------------------------------------//
 // @description
 //
-const resource = require('./resource');
+const specs = {
+  resource: path.join(__dirname, 'resource.js'),
+  store: path.join(__dirname, 'store.js'),
+  collection: path.join(__dirname, 'collection.js')
+};
+
+//
+// RUNNER
+//------------------------------------------------------------------------------------------//
+// @description
+Object.keys(specs).forEach(spec => mocha.addFile(specs[spec]));
+
+// Run specs
+mocha.run((failures=0) => {
+  if(!args['brk-failures']) return;
+
+  process.on('exit', function () {
+    process.exit(failures);  // exit with non-zero status if there were failures - mainly for CI.
+  });
+});
+
+
+//
+// RUNNER HELPERS
+//------------------------------------------------------------------------------------------//
+// @description
+//
+function notYetImplementedStub(done) {
+  throw new Error('Test not yet implemented');
+  // done();
+}

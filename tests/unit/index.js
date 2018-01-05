@@ -29,7 +29,8 @@ global.runner = {
 const specs = {
   resource: path.join(__dirname, 'resource.js'),
   store: path.join(__dirname, 'store.js'),
-  collection: path.join(__dirname, 'collection.js')
+  collection: path.join(__dirname, 'collection.js'),
+  domain: path.join(__dirname, 'domain.js')
 };
 
 //

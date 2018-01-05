@@ -6,7 +6,7 @@
  * @description
  */
 const chai = require('chai');
-const Store = using('src/store');
+const Collection = using('src/structs/collection');
 
 //
 // Chai constants

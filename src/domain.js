@@ -23,7 +23,7 @@ module.exports = class Domain {
       throw new Error(`System Domain - please provide a name for your domain`);
     }
 
-    this.config = Object.assign({type: Object}, config);
+    this.config = Object.assign({type: Object, cache: true, force: false}, config);
     // Domains Constructs
     this.Service = members.Service instanceof Service && members.Service || new Service(this.config);
     this.Resource = members.Resource instanceof Resource && members.Resource || new Resource(name, this.config);
@@ -38,6 +38,10 @@ module.exports = class Domain {
 
     // Domain Data type
     this.Struct = Structs[Constants.Structs[this.config.type || this.Model.config.type]];
+
+    if(!this.Struct) {
+      throw new Error(`Continuum:Domains - Struct - ${this.config.type} is not a valid type for Continuum.Structs. Supported types are found in Continuum.Constants.`);
+    }
   }
 
   /**
@@ -51,7 +55,7 @@ module.exports = class Domain {
     return new Promise((resolve, reject) => {
       let data = this.Store.get();
 
-      if(data && data instanceof this.Struct) {
+      if(data && data instanceof this.Struct && config.cache && !config.force) {
         resolve(data.read(config));
       } else {
         // If store doesn't have, try the API
@@ -61,12 +65,13 @@ module.exports = class Domain {
           // Process incoming data
           .then(data => this.Service.inbound.get(data))
           // Write data type to the store
-          .then(data => this.Store.set(
-            new this.Struct(data, config)
-          ))
-          // Dispatch change events
-          .then(store => {
-            return store.dispatch(store.get().read(config));
+          .then(data => {
+            if(config.cache) {
+              let struct = new this.Struct(data, config);
+              return this.Store.set(struct).dispatch(struct.read());
+            } else {
+              return data
+            }
           })
           // Resolve to direct callers
           .then(resolve)
@@ -88,21 +93,26 @@ module.exports = class Domain {
       this.Resource.put(this.Service.outbound.update(data), config)
         .then(response => this.Service.inbound.update(response, data))
         .then(data => {
-          let struct = this.Store.get(); // Get the current store struct.
+          if(config.cache) {
+            let struct = this.Store.get(); // Get the current store struct.
 
-          if(struct) {
-            // if the store has the struct already, update it
-            return struct.write(data, config);
+            if(struct) {
+              // if the store has the struct already, update it
+              return struct.write(data, config);
+            } else {
+              // if not, create a new struct
+              return new this.Struct(data, config);
+            }
           } else {
-            // if not, create a new struct
-            return new this.Struct(data, config);
+            return data
           }
-        }).then(struct => {
-          // write the struct to the store
-          return this.Store.set(struct);
+        }).then(data => {
+          if(config.cache) {
+            this.Store.set(data).dispatch(data.read());
+          } else {
+            return data;
+          }
         })
-        // dispatch struct data.
-        .then(store => this.dispatch(store.get().read()))
         .then(resolve)
         .catch(reject)
     });
@@ -121,8 +131,10 @@ module.exports = class Domain {
       this.Resource.post(this.Service.outbound.create(data), config)
         .then(response => this.Service.inbound.create(response, data))
         .then(data => {
+          if(!config.cache) return data;
+
           let struct = this.Store.get(); // Get the current store struct.
-          console.log(data)
+
           if(struct) {
             // if the store has the struct already, update it
             return struct.write(data, config);
@@ -131,8 +143,13 @@ module.exports = class Domain {
             return new this.Struct(data, config);
           }
         })
-        .then(struct => this.Store.set(struct))
-        .then(store => this.dispatch(this.Store.get().read()))
+        .then(data => {
+          if(config.cache) {
+            this.Store.set(data).dispatch(data.read());
+          } else {
+            return data;
+          }
+        })
         .then(resolve)
         .catch(reject)
     });
@@ -149,8 +166,11 @@ module.exports = class Domain {
 
     return new Promise((resolve, reject) => {
       this.Resource.delete(data, config)
-        .then(response => this.Store.get())
-        .then(struct => {
+        .then(response => {
+          if(!config.cache) return response;
+
+          let struct = this.Store.get();
+
           if(struct) {
             // if the store has the struct already, update it
             return struct.remove(data, config);
@@ -161,8 +181,13 @@ module.exports = class Domain {
             return new this.Struct(null, config);
           }
         })
-        .then(struct => this.Store.set(struct))
-        .then(store => this.dispatch(this.Store.get().read()))
+        .then(data => {
+          if(config.cache) {
+            this.Store.set(data).dispatch(data.read());
+          } else {
+            return data;
+          }
+        })
         .then(resolve)
         .catch(reject)
     });

@@ -1,0 +1,19 @@
+machine:
+  node:
+    version: 9.2.0
+dependencies:
+  override:
+    - npm install
+  post:
+    - npm rebuild node-sass --force
+test:
+  pre:
+    - mkdir ./demo/.data
+    - echo {\"users\":[]} > ./demo/.data/db.json
+    - npm run demo:seed
+    - npm run demo:server:
+        background: true
+  override:
+    - sleep 30
+    - npm run tests:unit
+    - npm run tests:ui:headless

@@ -1,0 +1,14 @@
+machine:
+  node:
+    version: 9.2.0
+dependencies:
+  override:
+    - npm install
+deployment:
+  master:
+    branch: master
+    commands:
+      - npm run demo:server:
+          background:true
+      - npm run tests:unit
+      - npm run tests:ui

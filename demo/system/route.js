@@ -12,9 +12,9 @@ import Access from './access';
 /**
  * Wraps Continuum.Router to provide custom auth and acl checks.
  */
-export default class Router extends Continuum.Router {
-  constructor() {
-    super();
+export default class Route extends Continuum.Route {
+  constructor(path='/', handler, config={}) {
+    super(path, handler, config);
   }
 
   /**
@@ -23,8 +23,8 @@ export default class Router extends Continuum.Router {
    * @param  {[type]} router [description]
    * @return {[type]}        [description]
    */
-  protect(view, router) {
-    console.log(view, router)
+  protect(router) {
+    return true;
   }
 
   /**
@@ -32,7 +32,7 @@ export default class Router extends Continuum.Router {
    * @param  {[type]} view [description]
    * @return {[type]}      [description]
    */
-  restrict(view) {
+  restrict(router) {
     return true;
   }
 }

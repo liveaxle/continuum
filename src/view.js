@@ -11,14 +11,13 @@
  * @type {String}
  */
 module.exports = class View {
-  constructor(route='', spec={}) {
-    if(!route) {
-      throw new Error(`Continuum:View - needs a url to register`);
+  constructor(view, config={}) {
+    if(!view) {
+      throw new Error(`Continuum:View - needs a view to register`);
     }
 
     // Instance Members
-    this.route = route;
-    this.spec = Object.assign({protected: true}, spec);
+    this.config = Object.assign({protected: true}, config);
     this.transitionStart = this.transitionStart.bind(this);
     this.transitionStop = this.transitionStop.bind(this);
   }

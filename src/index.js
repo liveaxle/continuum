@@ -15,6 +15,7 @@ const Utils = require('./utils');
 const Security = require('./security');
 const Model = require('./model');
 const Router = require('./router');
+const Route = require('./route');
 const View = require('./view');
 
 /**
@@ -23,4 +24,4 @@ const View = require('./view');
  */
 module.exports = {
   Security, Domain, Service,
-  Store, Data, Utils, Model, View, Router, Resource, Structs};
+  Store, Data, Utils, Model, View, Router, Resource, Structs, Route};

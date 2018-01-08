@@ -4,6 +4,8 @@
 Domain Driven ideology for browser based applications.
 
 ***
+[![CircleCI](https://circleci.com/gh/liveaxle/continuum/tree/master.svg?style=svg)](https://circleci.com/gh/liveaxle/continuum/tree/master)
+***
 
 ## Install
 `npm install --save @liveaxle/continuum`

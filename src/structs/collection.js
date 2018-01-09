@@ -14,14 +14,15 @@ const Member = require('./member');
  * @return {[type]}           [description]
  */
 module.exports = class Collection {
-  constructor(data=[], config=[]) {
+  constructor(data=[], config={}) {
     // Cast data to the right structure.
     data = this.validate(data);
 
     this.config = Object.assign({
-      mutable: false,
-      key: 'continuum.key'
-    });
+      mutable: true,
+      key: 'continuum.key',
+      prepend: false
+    }, config);
 
     // Collection Memory Space
     const collection = {data: data.map(n => new Member(n, this.config))};
@@ -66,13 +67,21 @@ module.exports = class Collection {
    * @return {[type]}            [description]
    */
   write(collection, data, config={}) {
+
     if(!data) {
       throw new Error(`Continuum:Structs:Collection - write - "data" is null or undefined`);
     }
 
     // Merge JIT config
-    config = Object.assign(this.config, config);
+    config = Object.assign({}, this.config, config);
 
+    // If flatten is true, recurse with array contents;
+    if(_.isArrayLikeObject(data) && config.flatten) {
+      data.forEach(n => this.write(n, config));
+      return this;
+    }
+
+    // Pointers
     let member = new Member(data, config);
     let key = member[this.config.key];
     let index = collection.map[key];
@@ -99,7 +108,7 @@ module.exports = class Collection {
    * @return {[type]}        [description]
    */
   remove(collection, data, config) {
-    config = Object.assign(this.config, config);
+    config = Object.assign({}, this.config, config);
 
     let member = new Member(data, config);
     let key = member[this.config.key];

@@ -41,6 +41,8 @@ Object.keys(specs).forEach(spec => mocha.addFile(specs[spec]));
 
 // Run specs
 mocha.run((failures=0) => {
+  // essentially, for CI we can opt in to break the process on test fails,
+  //but for dev it's a little tedious
   if(!args['brk-failures']) return;
 
   process.on('exit', function () {

@@ -16,26 +16,70 @@ const _ = require('lodash');
   */
  module.exports = class Member {
    constructor(data, config) {
-     let key = uuid();
-
-     if(_.isObjectLike(data) || _.isArrayLike(data)) {
-       // Override instance key with existing key
-       if(data[config.key]) { key = data[config.key]}
-         else {
-           // TODO: test to make sure object.defineProperty works on arrays (it should)
-           Object.defineProperty(data, config.key, {enumerable: false, writeable: false, value: key});
-         }
-       // Add key straight to object
-     } else if(!data) {
-       // if primitive, issue warning TODO: check for "debug" mode later.
-       throw new Error(`Continuum:Structs:Collection - attempting to create Collection Member from a null or undefined value.`);
-     } else {
-       console.warn(`Continuum:Structs:Collection - Saving Primitive [${data}] to store. There is no way to track primitives (making updating this exact index:value later will be impossible.)`)
+     if(!data) {
+       throw new Error(`Continuum:Structs:Member - attempting to create Structs Member from a null or undefined value.`);
      }
 
-     // Add key to member instance as non-writeable property.
-     Object.defineProperty(this, config.key, {enumerable: false, writeable: false, value: key});
-     // Add data as unwriteable while in Member instance
-     Object.defineProperty(this, 'data', {enumerable: false, writeable:false, get: () => { return data}});
+     let types = {
+       Object: _.isObject(data),
+       Array: _.isArrayLikeObject(data)
+     };
+
+     let strategies = {
+       Object: this.object.bind(this),
+       array: this.array.bind(this),
+       default: this.default.bind(this)
+     };
+
+     let contents;
+     let strategy = Object.keys(types).filter(type => types[type])[0];
+
+     // Member set up
+     this.config = Object.assign({mutable: true, key: 'continuum.key'}, config);
+     const key = data[this.config.key] || uuid();
+
+     // Add key to member instance as non-writable property.
+     Object.defineProperty(this, this.config.key, {enumerable: false, writable: false, value: key});
+     // Add data as unwritable while in Member instance
+     Object.defineProperty(this, 'data', {enumerable: false, configurable: false, get: () => contents});
+     // Build contents
+     contents = (strategies[strategy] || this.default)(data);
+   }
+
+   /**
+    * Object member
+    * @param  {Object} [data={}] [description]
+    * @return {[type]}           [description]
+    */
+   object(data={}) {
+     let obj = Object.create(data);
+
+     Object.keys(data).forEach(key => {
+       Object.defineProperty(obj, key, {enumerable: true, writable: this.config.mutable, value: data[key]});
+     });
+
+     Object.defineProperty(obj, this.config.key, {enumerable: false, writable: false, value: this[this.config.key]});
+
+     return obj;
+   }
+
+   /**
+    * Array Member
+    * @param  {Array}  [data=[]] [description]
+    * @return {[type]}           [description]
+    */
+   array(data=[]) {
+     Object.defineProperty(data, this.config.key, {enumerable: false, writable: false, value: this.key});
+     return data;
+   }
+
+   /**
+    * Default Member
+    * @param  {String} [data=''] [description]
+    * @return {[type]}           [description]
+    */
+   default(data='') {
+     console.warn(`Continuum:Structs:Collection - Saving Primitive [${data}] to store. There is no way to track primitives (making updating this exact index:value later will be impossible.)`);
+     return data;
    }
  }

@@ -165,7 +165,7 @@ module.exports = class Domain {
     config = Object.assign(this.config, config);
 
     return new Promise((resolve, reject) => {
-      this.Resource.delete(data, config)
+      this.Resource.delete(this.Service.outbound.delete(data), config)
         .then(response => {
           if(!config.cache) return response;
 

@@ -90,7 +90,7 @@ module.exports = class Domain {
     config = Object.assign(this.config, config);
 
     return new Promise((resolve, reject) => {
-      this.Resource.put(this.Service.outbound.update(data), config)
+      this.Resource.put(config, this.Service.outbound.update(data))
         .then(response => this.Service.inbound.update(response, data))
         .then(data => {
           if(config.cache) {
@@ -128,7 +128,7 @@ module.exports = class Domain {
     config = Object.assign(this.config, config);
 
     return new Promise((resolve, reject) => {
-      this.Resource.post(this.Service.outbound.create(data), config)
+      this.Resource.post(config, this.Service.outbound.create(data))
         .then(response => this.Service.inbound.create(response, data))
         .then(data => {
           if(!config.cache) return data;
@@ -165,7 +165,7 @@ module.exports = class Domain {
     config = Object.assign(this.config, config);
 
     return new Promise((resolve, reject) => {
-      this.Resource.delete(this.Service.outbound.delete(data), config)
+      this.Resource.delete(config, this.Service.outbound.delete(data))
         .then(response => {
           if(!config.cache) return response;
 

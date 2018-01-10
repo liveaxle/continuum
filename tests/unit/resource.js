@@ -28,9 +28,6 @@ const Users = new Resource('users', {
   base: process.env.API
 });
 
-const spec = {passed: [], failed: []};
-
-
 describe('Continuum - Resource - Retrieval', () => {
   let request = Users.get({params: {_sort: 'created'}, headers: {'Continuum-Request-Header': Math.random().toString(32).substr(2, 16)}});
 
@@ -75,5 +72,13 @@ describe('Continuum - Resource - Retrieval', () => {
       }).then(done).catch(done);
   });
 
-  it('Sould replace dynamic segements in the url', runner.stub);
+  it('Sould replace dynamic segements in the url', (done) => {
+    request.then(response => {
+      let user = response.data[0];
+
+      let url = Users.url(user, {}, Users.methods.put);
+      expect(url).to.contain(user.id);
+
+    }).then(done).catch(done);
+  });
 });

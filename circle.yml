@@ -15,5 +15,5 @@ test:
         background: true
   override:
     - sleep 30
-    - npm run tests:unit
+    - npm run tests:unit:headless
     - npm run tests:ui:headless

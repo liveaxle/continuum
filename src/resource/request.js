@@ -17,7 +17,9 @@ module.exports = class Request {
   constructor(method='get', config={}) {
     this.method = method;
     this.params = config.params || {};
-    this.url = config.url || '',
+    this.url = config.url || '';
     this.data = config.data || {};
+    this.headers = config.headers || {};
+    this.auth = config.auth || {};
   }
 }

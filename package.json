@@ -8,7 +8,8 @@
     "test": "exit 0",
     "demo:server": "./node_modules/.bin/webpack-dev-server --config ./demo/webpack.config.js --env.API=http://localhost:9000 --env.PORT=9001",
     "demo:seed": "node ./demo/.scripts/seed",
-    "tests:unit": "API=http://localhost:9000 node ./tests/unit",
+    "tests:unit": "API=http://localhost:9000 node --inspect --inspect-brk ./tests/unit",
+    "tests:unit:headless": "API=http://localhost:9000 node ./tests/unit",
     "tests:ui": "./node_modules/.bin/cypress open",
     "tests:ui:headless": "./node_modules/.bin/cypress run",
     "ci": "git add . && git commit -m \"CI Changes\" && git push"

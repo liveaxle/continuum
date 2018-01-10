@@ -15,7 +15,7 @@ const _ = require('lodash');
 module.exports = class Model {
   constructor(name='Model', schema={}, config={}) {
     this.name = name;
-    this.config = Object.assign({type: Array, validate: true}, config);
+    this.config = Object.assign({validate: true}, config);
     this.schema = joi.object().keys(schema);
     this.failed = [];
 
@@ -58,12 +58,17 @@ module.exports = class Model {
    * @return {[type]}             [description]
    */
   validate(instance, data, config={}) {
-    let spec = Object.assign(this.config, config);
 
-    // If validation is disabled then simply return data.
-    if(!spec.validate) return data;
+    let spec = Object.assign({}, this.config, config);
+    let validator = _.isPlainObject(data) && Object
+      || _.isArray(data) && Array || null;
 
-    return this.validators[spec.type](data, instance);
+    // If validation is disabled or a validator couldn't be found
+    // then simply return data.
+    if(!spec.validate || !validator) return data;
+
+    // Run validation
+    return this.validators[validator](data, instance);
   }
 
   /**
@@ -111,11 +116,7 @@ function Instance(data={}, error, ctor) {
  * @return {[type]}           [description]
  */
 function validateArrayModel(data=[], instance) {
-  if(data.constructor !== Array) {
-    return console.error(`Continuum:Model - Model:${this.name} was specified as type: [${this.config.type}] but got: [${data}] of type: [${data.constructor}]`);
-  }
-
-  return data.map(n => joi.validate(n, this.schema)).map(n => new instance(n.value, n.error));
+  return (data || []).map(n => joi.validate(n, this.schema)).map(n => new instance(n.value, n.error));
 }
 
 /**
@@ -125,10 +126,6 @@ function validateArrayModel(data=[], instance) {
  * @return {[type]}          [description]
  */
 function validateObjectModel(data={}, instance) {
-  if(data.constructor !== Object) {
-    return console.error(`Continuum:Model - Model:${this.name} was specified as type: [${this.config.type}] but got: [${data}] of type: [${data.constructor}]`);
-  }
-
   let {error, value} = joi.validate(data, this.schema);
   return new instance(value, error);
 }

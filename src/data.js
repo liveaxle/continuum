@@ -24,7 +24,7 @@ function mapify(data=[], map={}) {
     throw new Error(`Continuum:Data - Mapify - This function is intended to convert Array instance data into a map by a given map, was given: ${map} - instead`);
   }
 
-  // BUild top level map items
+  // Build top level map items
   Object.keys(map).forEach(key => mapping[key] = {});
 
   // Loop through data and

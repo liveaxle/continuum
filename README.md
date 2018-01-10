@@ -18,6 +18,8 @@ Domain Driven ideology for browser based applications.
 * Babel: Preset-Env should cover everything.
 * Browsers: TBA (Chrome and FF, yes)
 
+Continuum was written with vanila node.js so that it could work behind whatever build system/config your application has.
+
 ***
 
 ## Try

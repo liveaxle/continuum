@@ -17,6 +17,5 @@ module.exports = class Response {
     Object.defineProperty(this, 'config', {value: Object.assign({}, response.config || {}), writable: false, enumerable: false});
     Object.defineProperty(this, 'status', {value: response.status, writable: false, enumerable: false});
     Object.defineProperty(this, 'headers', {value: response.headers || {}, writable: false, enumerable: false});
-    console.log(response, this)
   }
 }

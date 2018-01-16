@@ -39,9 +39,9 @@ const rules = {
  */
 const routes = Object.keys(views)
   .map(view => new Route(
-    view,
-    views[view].render.bind(views[view]),
-    rules[view]));
+    view, // path
+    views[view].render.bind(views[view]), // handler
+    rules[view])); // config
 
 //
 // ROUTER INIT

@@ -15,7 +15,7 @@ module.exports = class Composite {
     data = this.validate(data) || {};
 
     this.config = Object.assign({
-      mutable: false,
+      mutable: true,
       key: 'continuum.key'
     }, config);
 
@@ -49,7 +49,7 @@ module.exports = class Composite {
    * @return {[type]}            [description]
    */
   read(composite, config={}) {
-    return composite.contents.data;
+    return composite.contents.data || {};
   }
 
   /**
@@ -87,7 +87,7 @@ module.exports = class Composite {
    * @return {[type]}        [description]
    */
   remove(composite, data, config) {
-    composite.contents.data = {};
+    composite.contents = new Member({});
     return this;
   }
 }

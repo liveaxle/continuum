@@ -34,7 +34,7 @@ export default class Home extends React.Component {
 
   componentWillMount() {
     Domains.Users.get({params: {_sort: 'created', _order:'desc'}});
-    Domains.Users.Store.User.set(new Composite(Domains.Users.Model(), {mutable: true})).dispatch();
+    Domains.Users.Store.User.set(new Composite(Domains.Users.Model())).dispatch();
   }
 
   componentWillUnmount() {

@@ -9,6 +9,7 @@ import React from 'react';
 import Domains from '~/domains';
 import Components from '~/components';
 import {Utils} from 'continuum';
+import {Composite} from 'continuum/structs';
 
 /**
  *
@@ -26,14 +27,14 @@ export default class Home extends React.Component {
         this.setState({users: users})
       }),
       user: Domains.Users.Store.User.subscribe(user => {
-        this.setState({user: user});
+        this.setState({user: user.read()});
       })
     };
   }
 
   componentWillMount() {
     Domains.Users.get({params: {_sort: 'created', _order:'desc'}});
-    Domains.Users.Store.User.set(Domains.Users.Model()).dispatch();
+    Domains.Users.Store.User.set(new Composite(Domains.Users.Model())).dispatch();
   }
 
   componentWillUnmount() {
@@ -49,7 +50,9 @@ export default class Home extends React.Component {
   }
 
   updateUserModel(user) {
-    Domains.Users.Store.User.set(user).dispatch();
+    let composite = Domains.Users.Store.User.get();
+    composite.write(user);
+    Domains.Users.Store.User.set(composite).dispatch();
   }
 
   createUser(user) {

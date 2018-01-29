@@ -4,22 +4,92 @@
  * CONTINUUM - DATA - STRUCTS - COMPOSITE
  ***********************************************************************************************************************************************
  * @description The composite struct is to manage working with Objects in a consistent way.
- *
- * @requirements
- *    1. The Composite API needs to consist of a minimum of 3 public methods:
- *      a. read
- *      b. write
- *      c. remove
- *    2. What the above methods do is up for intepretation but here are a few guidelines:
- *      1. When a new Composite instance is created, it should 'write' any data given to it at time of creation to the instance
- *      2. The instance data, should be private (hint, use function binding)
- *      3. Ideally, the mutabilty of the instance data should be configurable
- *        3.a Meaning that if I save data, it should be impossible to write to that exact same data again ()
- *        3.b Because Composites in javascript are 'pass-by-reference', when a Composite class' read is called,
- *          it should return a copy of the data (determined by mutability config)
- *      4. Make use of the member class for key decoration
- *    3. Write tests! (there's a composite test stub)
- *
- *  (you can model a few things after the collection struct)
- *
  */
+const _ = require('lodash');
+const Member = require('./member');
+
+module.exports = class Composite {
+  constructor(data={}, config={}) {
+
+    // Cast data to the right structure.
+    data = this.validate(data) || {};
+
+    this.config = Object.assign({
+      mutable: true,
+      key: 'continuum.key'
+    }, config);
+
+    const composite = {contents: new Member(data, this.config)};
+
+    // Interface partials.
+    this.read = this.read.bind(this, composite);
+    this.write = this.write.bind(this, composite);
+    this.remove = this.remove.bind(this, composite);
+  }
+
+  /**
+   * Ensures data is ok to write to the composite.
+   * @param  {[type]} data   [description]
+   * @param  {[type]} config [description]
+   * @return {[type]}        [description]
+   */
+  validate(data, config) {
+    if(data && _.isObjectLike(data) && !_.isArrayLike(data)) {
+      return data;
+    } else {
+      console.warn(`Continuum:Structs:Composite - Validate - ${typeof data} is not an object.`);
+      return null;
+    }
+  }
+
+  /**
+   * Returns unobfuscated composite data.
+   * @param  {[type]} composite  [description]
+   * @param  {[type]} query      [description]
+   * @return {[type]}            [description]
+   */
+  read(composite, config={}) {
+    return composite.contents.data || {};
+  }
+
+  /**
+   *  Writes data to the composite.
+   * @param  {[type]} composite  [description]
+   * @param  {[type]} data       [description]
+   * @param  {[type]} config     [description]
+   * @return {[type]}            [description]
+   */
+  write(composite, data, config={}) {
+    config = Object.assign({}, this.config, config);
+    // If mutable is set to false, data will not be overwritten.
+    if (!config.mutable) {
+      console.warn(`Continuum:Structs:Composite - Write - Cannot write data to a composite with config.mutable set to false.`);
+      return this;
+    }
+    // Ensure that method has been passed valid data. If not, data will not be overwritten.
+    if (!this.validate(data)) {
+      console.warn(`Continuum:Structs:Composite - Write - Attempted to overwrite composite data with an invalid data type - ${typeof data}`);
+      return this;
+    }
+    // If merge is true, incoming properties will be added to existing data.
+    // Otherwise existing data will be replaced with incoming.
+    if (config.merge) {
+      data = Object.assign({}, this.read(), data);
+    }
+    composite.contents = new Member(data, config);
+    return this;
+  }
+
+  /**
+   * Clears the composite's data.
+   * @param  {[type]} data   [description]
+   * @param  {[type]} config [description]
+   * @return {[type]}        [description]
+   */
+  remove(composite, data, config) {
+    composite.contents = new Member({});
+    return this;
+  }
+}
+
+

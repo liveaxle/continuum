@@ -1,7 +1,7 @@
 {
   "name": "@liveaxle/continuum",
   "access": "public",
-  "version": "0.1.0-alpha",
+  "version": "0.2.0-alpha",
   "description": "Domain Driven ideology for Javascript applications.",
   "main": "./src/index.js",
   "scripts": {

@@ -16,7 +16,7 @@ module.exports = class Model {
   constructor(name='Model', schema={}, config={}) {
     this.name = name;
     this.config = Object.assign({validate: true}, config);
-    this.schema = joi.object().keys(schema);
+    this.schema = schema;
     this.failed = [];
 
     // Function wrapper for dynamic naming of factory instance.

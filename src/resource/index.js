@@ -36,6 +36,11 @@ module.exports = class Resource {
     this.put = request.bind(this, 'put');
     this.post = request.bind(this, 'post');
     this.delete = request.bind(this, 'delete');
+
+    // set http config to default instance config
+    this.config = Object.assign({
+      withCredentials: false
+    }, config.http || {});
   }
 
   /**

@@ -1,7 +1,7 @@
 'use strict';
 
 /***********************************************************************************************************************************************
- * CONTINUUM - RESOURCE - RESPONSE
+ * CONTINUUM - RESOURCE - REQUEST
  ***********************************************************************************************************************************************
  * @description
  */
@@ -21,5 +21,6 @@ module.exports = class Request {
     this.data = config.data || {};
     this.headers = config.headers || {};
     this.auth = config.auth || {};
+    this.withCredentials = config.withCredentials || false;
   }
 }

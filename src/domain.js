@@ -56,7 +56,12 @@ module.exports = class Domain {
       let data = this.Store.get();
 
       if(data && data instanceof this.Struct && config.cache && !config.force) {
-        resolve(data.read(config));
+        let contents = data.read(config);
+        // If get is called and contents exist in the store, while
+        // still fire a store dispatch to support subscriptions.
+        this.Store.dispatch(contents);
+        // Resolve contents to support standard promise usage.
+        resolve(contents);
       } else {
         // If store doesn't have, try the API
         this.Resource.get(config)

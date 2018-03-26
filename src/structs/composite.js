@@ -7,6 +7,7 @@
  */
 const _ = require('lodash');
 const Member = require('./member');
+const Constants = require('../constants');
 
 module.exports = class Composite {
   constructor(data={}, config={}) {
@@ -16,7 +17,7 @@ module.exports = class Composite {
 
     this.config = Object.assign({
       mutable: true,
-      key: 'continuum.key'
+      key: Constants.defaults.data.key
     }, config);
 
     const composite = {contents: new Member(data, this.config)};
@@ -91,5 +92,3 @@ module.exports = class Composite {
     return this;
   }
 }
-
-

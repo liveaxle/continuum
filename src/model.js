@@ -8,6 +8,7 @@
 const joi = require('joi');
 const Utils = require('./utils');
 const _ = require('lodash');
+const Constants = require('./constants');
 
 /**
  * Model Class
@@ -30,7 +31,7 @@ module.exports = class Model {
     let factory = (function Factory(data={}) {
       let {error, value} = joi.validate(data, this.schema);
       // Return Model specific instance.
-      return new instance(value, error);
+      return new instance(value, error, data, Constants);
     }).bind(this);
 
     Object.defineProperty(factory, 'schema', {value: this.schema, writable: false});
@@ -90,7 +91,7 @@ module.exports = class Model {
  * @param       {[type]} error     [description]
  * @constructor
  */
-function Instance(data={}, error, ctor) {
+function Instance(data={}, error, src, Constants) {
 
   // add non-enumerable getter for 'failed'
   Object.defineProperty(this, '__failed', {
@@ -98,6 +99,14 @@ function Instance(data={}, error, ctor) {
     configurable: false,
     get: () => { return error; }
   });
+
+  if(src[Constants.defaults.data.key]) {
+    Object.defineProperty(this, Constants.defaults.data.key, {
+      enumerable: false,
+      configurable: false,
+      value: src[Constants.defaults.data.key]
+    });
+  }
 
   // Apply model data to instance
   Object.assign(this, data);

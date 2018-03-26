@@ -7,6 +7,7 @@
  */
 const _ = require('lodash');
 const Member = require('./member');
+const Constants = require('../constants');
 
 /**
  * Collection Instance
@@ -20,7 +21,7 @@ module.exports = class Collection {
 
     this.config = Object.assign({
       mutable: true,
-      key: 'continuum.key',
+      key: Constants.defaults.data.key,
       prepend: false
     }, config);
 

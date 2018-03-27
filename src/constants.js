@@ -17,6 +17,18 @@ CONSTANTS.Structs = {};
 CONSTANTS.Structs[Array] = 'Collection';
 CONSTANTS.Structs[Object] = 'Composite';
 
+
+//
+// DEFAULTS
+//------------------------------------------------------------------------------------------//
+// @description
+//
+CONSTANTS.defaults = {
+  data: {
+    key: 'continuum.key'
+  }
+};
+
 /**
  * [exports description]
  * @type {[type]}

@@ -8,6 +8,7 @@
 const joi = require('joi');
 const Utils = require('./utils');
 const _ = require('lodash');
+const Constants = require('./constants');
 
 /**
  * Model Class
@@ -30,7 +31,7 @@ module.exports = class Model {
     let factory = (function Factory(data={}) {
       let {error, value} = joi.validate(data, this.schema);
       // Return Model specific instance.
-      return new instance(value, error);
+      return new instance(value, error, Constants, data);
     }).bind(this);
 
     Object.defineProperty(factory, 'schema', {value: this.schema, writable: false});
@@ -90,7 +91,7 @@ module.exports = class Model {
  * @param       {[type]} error     [description]
  * @constructor
  */
-function Instance(data={}, error, ctor) {
+function Instance(data={}, error, constants, src) {
 
   // add non-enumerable getter for 'failed'
   Object.defineProperty(this, '__failed', {
@@ -98,6 +99,14 @@ function Instance(data={}, error, ctor) {
     configurable: false,
     get: () => { return error; }
   });
+
+  if(src && src[constants.defaults.data.key]) {
+    Object.defineProperty(this, constants.defaults.data.key, {
+      enumerable: false,
+      configurable: false,
+      value: src[constants.defaults.data.key]
+    });
+  }
 
   // Apply model data to instance
   Object.assign(this, data);
@@ -116,7 +125,7 @@ function Instance(data={}, error, ctor) {
  * @return {[type]}           [description]
  */
 function validateArrayModel(data=[], instance) {
-  return (data || []).map(n => joi.validate(n, this.schema)).map(n => new instance(n.value, n.error));
+  return (data || []).map(n => joi.validate(n, this.schema)).map(n => new instance(n.value, n.error, Constants));
 }
 
 /**
@@ -127,5 +136,5 @@ function validateArrayModel(data=[], instance) {
  */
 function validateObjectModel(data={}, instance) {
   let {error, value} = joi.validate(data, this.schema);
-  return new instance(value, error);
+  return new instance(value, error, Constants);
 }

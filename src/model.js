@@ -31,7 +31,7 @@ module.exports = class Model {
     let factory = (function Factory(data={}) {
       let {error, value} = joi.validate(data, this.schema);
       // Return Model specific instance.
-      return new instance(value, error, data, Constants);
+      return new instance(value, error, Constants, data);
     }).bind(this);
 
     Object.defineProperty(factory, 'schema', {value: this.schema, writable: false});
@@ -91,7 +91,7 @@ module.exports = class Model {
  * @param       {[type]} error     [description]
  * @constructor
  */
-function Instance(data={}, error, src, Constants) {
+function Instance(data={}, error, constants, src) {
 
   // add non-enumerable getter for 'failed'
   Object.defineProperty(this, '__failed', {
@@ -100,11 +100,11 @@ function Instance(data={}, error, src, Constants) {
     get: () => { return error; }
   });
 
-  if(src[Constants.defaults.data.key]) {
-    Object.defineProperty(this, Constants.defaults.data.key, {
+  if(src && src[constants.defaults.data.key]) {
+    Object.defineProperty(this, constants.defaults.data.key, {
       enumerable: false,
       configurable: false,
-      value: src[Constants.defaults.data.key]
+      value: src[constants.defaults.data.key]
     });
   }
 
@@ -125,7 +125,7 @@ function Instance(data={}, error, src, Constants) {
  * @return {[type]}           [description]
  */
 function validateArrayModel(data=[], instance) {
-  return (data || []).map(n => joi.validate(n, this.schema)).map(n => new instance(n.value, n.error));
+  return (data || []).map(n => joi.validate(n, this.schema)).map(n => new instance(n.value, n.error, Constants));
 }
 
 /**
@@ -136,5 +136,5 @@ function validateArrayModel(data=[], instance) {
  */
 function validateObjectModel(data={}, instance) {
   let {error, value} = joi.validate(data, this.schema);
-  return new instance(value, error);
+  return new instance(value, error, Constants);
 }

@@ -14,7 +14,6 @@ const Pattern = require('url-pattern');
  */
 const _router = new Director.Router();
 
-
 /**
  * Router class that exists basically for the
  * puposes for chaining.
@@ -57,9 +56,7 @@ module.exports = class Router {
    */
   register(path='/', fn=this.stub) {
 
-    _router.on(path, (params)=>{
-      fn(this, this.params.map(path, params))
-    });
+    _router.on(path, routeHandler.bind(this, path, fn));
 
     return this;
   }
@@ -83,6 +80,10 @@ module.exports = class Router {
 //------------------------------------------------------------------------------------------//
 // @description
 //
+function routeHandler(path, handler) {
+  handler(this, this.params.map(path, [].slice.call(arguments).slice(2)))
+}
+
 /**
  * Builds url params from dynamic segments into a map.
  * ie: registered: /users/:id - visited: /users/10 will return an object of {id: 10};
